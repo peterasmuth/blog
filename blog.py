@@ -16,6 +16,12 @@ def home():
 def projects():
     return render_template('front_page.html')
 
+
+@app.route("/article")
+def article():
+    return render_template('article.html')
+
+
 #This method displays the 16px x 16px icon in the browser tab
 @app.route('/favicon.ico')
 def favicon():
@@ -24,4 +30,4 @@ def favicon():
 
 #Runs the server
 #Remove debug=True when deploying to gcloud
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=8080, debug=True)
