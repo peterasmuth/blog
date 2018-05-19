@@ -1,0 +1,56 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - microblog</title>
+        {% else %}
+        <title>microblog</title>
+        {% endif %}
+        <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+        <link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico') }}">
+    </head>
+    <body>
+        <div class="head_bar">
+            <h2>
+            <a class="homebutton" href="{{ url_for('index') }}">A Working Title</a>
+            <a class="projectsbutton" href="{{ url_for('rainstorm') }}">Current Projects</a>
+            </h2>
+        </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <div class="row">
+            <div class="leftcolumn">{% block content %}{% endblock %}</div>
+            <div class="rightcolumn">
+                <div class="card">
+      <h2>About Me</h2>
+      <img src="{{url_for('static', filename='images/portrait.jpg')}}", align="center">
+      <p>My name is Peter. I built this website, and wrote it's content. I'm always looking for new projects, so give me some ideas.</p>
+    </div>
+    <div class="card">
+      <h3>Tweet</h3>
+      <a href="https://twitter.com/intent/tweet?screen_name=PeterMAsmuth&ref_src=twsrc%5Etfw"
+         class="twitter-mention-button" data-show-count="false">Tweet to @PeterMAsmuth</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><br>
+      <a href="https://twitter.com/PeterMAsmuth?ref_src=twsrc%5Etfw"
+         class="twitter-follow-button" data-show-count="false">Follow @PeterMAsmuth</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div class="card">
+        <h1>Mock Ad</h1>
+        <img src="{{url_for('static', filename='images/image.jpg')}}", align="center">
+    </div>
+    </div>
+        </div>
+        </div>
+        <div class="footer">
+            <h2>My foot</h2>
+        </div>
+    </body>
+</html>

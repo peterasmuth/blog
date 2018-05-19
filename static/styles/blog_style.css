@@ -1,0 +1,133 @@
+/*Mystery*/
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Cambria, Georgia, serif;
+    padding: 15px;
+    background: #5075b2;
+}
+
+/*Add a card effect for articles*/
+.card {
+     background-color: #324159;
+     color: #9ca6b7;
+     padding: 5px 5px;
+     margin-top: 5px;
+}
+
+/*Makes images fit to their containers*/
+img {
+    max-width:100%;
+}
+
+h1 {
+	font-family: Cambria, Georgia, serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+}
+h3 {
+	font-family: Cambria, Georgia, serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 15.4px;
+}
+p {
+	font-family: Cambria, Georgia, serif;
+	font-size: 18px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+blockquote {
+	font-family: Cambria, Georgia, serif;
+	font-size: 21px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 30px;
+}
+pre {
+	font-family: Cambria, Georgia, serif;
+	font-size: 13px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 18.5714px;
+}
+
+/* Appears at the top of every page */
+.header_bar {
+    background-color: #324159;
+     color: #9ca6b7;
+     padding: 5px;
+}
+
+.header_button{
+    color: #9ca6b7;
+    border: solid;
+    padding: 20px 20px;
+    text-align: center;
+    background-color: #324159;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline;
+    width: 50%;
+    float: left;
+}
+
+.go_to_button{
+	background-color: #527cc4;
+	border: solid;
+	border-color: #9ca6b7;
+	color: #324159;
+	font-size: 20px;
+	text-align: center;
+	text-decoration: none;
+	padding: 5px 50px;
+    cursor: pointer;
+}
+
+.leftcolumn {
+    float: left;
+    width: 75%;
+    display: table-cell;
+}
+
+/* Right column */
+.rightcolumn {
+    float: left;
+    width: 25%;
+    padding-left: 5px;
+    display: table-cell;
+}
+
+
+.smallleftcolumn {
+    float: left;
+    width: 50%;
+    display: table-cell;
+}
+
+/* Right column */
+.smallrightcolumn {
+    float: left;
+    width: 50%;
+    padding-left: 5px;
+    display: table-cell;
+}
+
+/* Clear floats after the columns */
+
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

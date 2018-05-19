@@ -1,0 +1,68 @@
+<html>
+
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119465065-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-119465065-1');
+	</script>
+
+
+	<title>Q9 Analytics</title>		
+
+    <!--Links to the CSS and the little tiny icon that goes on the browser tab-->
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename='styles/blog_style.css')}}">
+    <link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico') }}">
+
+</head>
+
+
+<body>
+	<!--Header bar with two link buttons-->
+	<div class="row">
+		<h2>
+			<div><a class="header_button" href="{{ url_for('home') }}">Q9 Analytics</a></div>
+			<div><a class="header_button" href="{{ url_for('projects') }}">Projects</a></div>
+		</h2>
+	</div><!--End of header bar-->
+
+	<!--Divides the main content from the header-->
+	<div class="row">
+
+		<!--The left column renders block content from other html files, this is the main focus of the page-->
+		<div class="leftcolumn">
+			{% block content %}
+			{% endblock %}
+		</div><!--End of left column-->
+
+		<!--The right column displays some general information about the webpage, and will appear the same on every page.-->
+		<div class="rightcolumn">
+
+	        <div class="card">
+      			<h2>About Me</h2>
+      			<img src="{{url_for('static', filename='images/portrait.jpg')}}", align="center">
+      			<p>My name is Peter. I built this website, and wrote it's content. I'm always looking for new projects, so give me some ideas.</p>
+    		</div><!--End of About Me card-->
+
+    		<div class="card">
+    			<h2>An Ad</h2>
+    			<img src="{{url_for('static', filename='images/image.jpg')}}", align="center">
+    		</div><!--End of Ad card-->
+
+		</div><!--End of right column-->
+
+	</div><!--End of row-->
+
+	<div class="row">
+		<div class="card">
+			This is the footer	
+		</div>
+	</div>
+</body>
+
+
+</html>

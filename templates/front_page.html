@@ -1,0 +1,36 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+<!--The first row displays the main page content-->
+<div class="row">
+    <div class="card">
+        <h1>Home</h1>
+        <p>Welcome to my webpage</p>
+        <img src="{{url_for('static', filename='images/cumulonimbus.jpg')}}" alt="A picture of clouds">
+        <center><h2><a class="go_to_button" href="{{ url_for('home') }}">The Article</a></h2></center>
+    </div>
+</div><!--End of main row-->
+
+<!--The second row displays related content in two smaller boxes-->
+<div class="row">
+
+    <div class="smallleftcolumn">
+        <div class="card">
+            <h1>Stuff on the left</h1>
+            <img src="{{url_for('static', filename='images/GV_map.jpg')}}" alt="A picture of clouds">
+            <center><h2><a class="go_to_button" href="{{ url_for('home') }}">The Article</a></h2></center>
+        </div>
+    </div>
+
+    <div class="smallrightcolumn">
+        <div class="card">
+            <h1>Stuff on the right</h1>
+            <img src="{{url_for('static', filename='images/GV_map.jpg')}}" alt="A picture of clouds">
+            <center><h2><a class="go_to_button" href="{{ url_for('home') }}">The Article</a></h2></center>
+        </div>
+    </div>
+
+</div><!--End of second row-->
+
+{% endblock %}

@@ -1,0 +1,1 @@
+This is the barebones of a website built using the Flask framework.
