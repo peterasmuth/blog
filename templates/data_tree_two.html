@@ -1,0 +1,165 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="card">
+	<h1>Data Tree:</h1>
+	<h2>Using schedule to automate Python</h2>
+
+	<p>In the <a class="body_link" href="{{ url_for('data_tree_one') }}">last tutorial</a> I talked about using Python to make a HTTP request, parsing the reply, and writing the data to a csv. In this tutorial we'll build on that, and use the <code>schedule</code> package to make requests throughout the day. </p>
+
+	<h1>Overview</h1>
+	<ul>
+		<li>Project Structure</li>
+		<ul>
+		<li>Modify <code>weather.py</code></li>
+		<li>Create <code>task_scheduler.py</code></li>
+		</ul>
+		<li>Schedule a task</li>
+		<li>Exception Handling</li>
+		<li>Collecting from multiple stations</li>
+	</ul>
+
+	<h1>Project Structure</h1>
+
+	<p>To make this approach to automation extend to more functions than just our weather collection algorithm, we should divide this task into two different scripts. The first script will be essentiall the same as the one we developed in the last tutorial, but with a few key features added. The second script will will manage the <code>schedule</code> module. These two scripts should be in the same directory.</p>
+
+<pre>
+<code class="block">data tree\
+    |-weather.py
+    |-task_scheduler.py
+</code>
+</pre>
+
+	<h2>Modify <code>weather.py</code></h2>
+	<p>Before we can use the <code>schedule</code> module, we need to make a change to <code>weather.py</code>. Thankfully, the change is a single line:</p>
+
+<pre>
+<code class="block">
+################
+## weather.py ##
+################
+
+import requests
+import csv
+from datetime import datetime
+
+api_url = "http:// ... "
+
+def get_weather():  #Add this line! The rest of the script should be inside the function.
+    weather_data = requests.get(api_url).json()
+    ...
+</code>
+</pre>
+
+	<p>Now we can call <code>get_weather()</code> and it will execute everything we built in the last tutorial.</p>
+
+<h2>Create <code>task_scheduler.py</code></h2>
+
+	<p>The script for scheduling tasks is pretty basic, it lets the package do all the heavy lifting.</p>
+
+<pre>
+<code class="block">
+#######################
+## task_scheduler.py ##
+#######################
+
+import schedule
+import weather
+
+'''This method contains all the scheduling tasks'''
+def run_tasks():
+    schedule.every(2).minutes.do(job)
+    while True:
+        schedule.run_pending()
+
+
+def job():
+    weather.get_weather()  #Look at this! \(o-o)/
+    return
+
+
+if __name__ == "__main__":
+    run_tasks()
+</code>
+</pre>
+
+	<p>The <code>run_tasks()</code> method uses the <code>schedule</code> module to repeat <code>job()</code> every 2 minutes. In this case <code>job()</code> is just calling <code>get_weather()</code>. An alternate way to write this would be to directly call <code>get_weather()</code> when scheduling the tasks, but I chose to create the intermediary function <code>job()</code> because it will allow me to schedule multiple functions in one batch.</p>
+
+<pre>
+<code class="block">def run_tasks():
+    schedule.every(2).minutes.do(get_weather)
+    while True:
+        schedule.run_pending()
+</code>
+</pre>
+
+	<p>Now you can just run <code>task_scheduler.py</code> and it will make an API request every 2 minutes, and record the response in a csv. But before we can set this thing loose, we need to add some exception handling</p>
+
+	<h1>Exception Handling</h1>
+
+	<p>There are two main exeptions that we'll see if we let this program run long enough. The first is caused when we don't get a response from the API, the other when we get a response, but it's not what we're looking for. In either case all we're going to do is retry the request and hope it goes through on the second try. To handle the exceptions, we need to modify <code>weather.py</code>:</p>
+
+<pre>
+<code class="block"># Add these imports
+from json import JSONDecodeError
+import time
+
+def get_weather():
+    # Enclose the request in a try/catch block
+    while True:
+        try:
+            print("Requesting")
+            weather_data = requests.get(api_url).json()
+        except JSONDecodeError:
+            print("Retrying...")
+            time.sleep(5)
+            continue
+        except requests.exceptions.ConnectTimeout:
+            print("Retrying...")
+            time.sleep(5)
+            continue
+
+    # The rest of the function remains the same
+    now = datetime.now().strftime(...)
+    ...
+    ...
+	</code>
+</pre>
+
+	<p>By handling these two exceptions, we ensure that the program will continue to collect data in the face of minor adversity. Adding <code>time.sleep(5)</code> to each of the <code>except</code> blocks limits slows down the loop in the event of an error. Delaying by 5 seconds has virtually no effect on the data collection, but it severly limits the number of requests that can be sent in quick succession. This will prevent accidental API overage charges.</p>
+
+	<p>This should be enough to continuously collect data from a single weather station for an indefinite period of time. </p>
+
+	<h1>Collecting from Multiple Stations</h1>
+
+	<p>Extending this program to collect data from multiple weather stations is simple. First you have to decide which stations you want to collect from. For my project, I want to use stations located in the Gallatin Valley, primarily Bozeman. You can use the API to find weather stations close to a location using the <code>geolookup</code> function.</p>
+
+<pre>
+<code class="block">http://api.wunderground.com/api/&lt;YOUR API KEY&gt;/geolookup/q/MT/Bozeman.json</code>
+</pre>
+
+	<p>You should get a reply that looks like <a class="body_link" href="{{ url_for('geolookupsample') }}">this</a>. We're interested in the values for <code>"id"</code>. They all take the form <code>"KMTBOZEM"</code> followed by a number. Since there are only a handful of stations in the Bozeman area, I just transcribed the station ids by hand. There may be a more Pythonic way to extract the station ids from this request and use them to make individual requests for each station, so that may be a topic for a later tutorial.</p>
+
+	<p>Once we have all the station ids we can iterate through them using a for-loop:</p>
+
+<pre>
+	<code class="block">stations = [100, 38, 155, 97]
+
+for i in stations:
+    api_url = "http://api.wunderground.com/api/ec4e28e53161c067/conditions/q/pws:KMTBOZEM" + str(i) + ".json"
+    while True:
+        try:
+            weather_data = requests.get(api_url).json()
+            time.sleep(6)  # Configure this to avoid API overages
+            ...
+	</code>
+</pre>
+
+	<p>If you add the for-loop to <code>weather.py</code>, you also have to configure how often <code>get_weather()</code> gets called, and how long it waits between requests. My free-tier API access is limited to 10 requests/minute and 500 requests/day. Including <code>time.sleep(6)</code> ensures that my program won't exceed 10 requests/second. Changing <code>schedule.every(n).minutes.do(job)</code> will affect how often that for-loop restarts. The longer the wait between loops, the further the 500 daily API requests will go, but the time resolution of the resulting data will be reduced.</p>
+
+	<p>Now that you have a tool for collecting weather data, it's time to set it free. We'll be using the data it produces to generate maps and graphs next.</p>
+
+	<center><h2><a class="go_to_button" href="{{ url_for('home') }}">Next: Coming Soon</a></h2></center>
+
+</div>
+{% endblock %}
