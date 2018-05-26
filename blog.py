@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, send_from_directory
 from config import Config
 import os
 
@@ -17,9 +17,24 @@ def projects():
     return render_template('front_page.html')
 
 
-@app.route("/article")
-def article():
-    return render_template('article.html')
+@app.route("/data_tree_one")
+def data_tree_one():
+    return render_template('data_tree_one.html')
+
+
+@app.route("/data_tree_two")
+def data_tree_two():
+    return render_template('data_tree_two.html')
+
+
+@app.route("/jsonsample")
+def jsonsample():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'jsonsample.json')
+
+
+@app.route("/geolookupsample")
+def geolookupsample():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'geolookupsample.json')
 
 
 #This method displays the 16px x 16px icon in the browser tab

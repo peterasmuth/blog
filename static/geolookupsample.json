@@ -1,0 +1,263 @@
+
+{
+  "response": {
+  "version":"0.1",
+  "termsofService":"http://www.wunderground.com/weather/api/d/terms.html",
+  "features": {
+  "geolookup": 1
+  }
+	}
+		,	"location": {
+		"type":"CITY",
+		"country":"US",
+		"country_iso3166":"US",
+		"country_name":"USA",
+		"state":"MT",
+		"city":"Bozeman",
+		"tz_short":"MDT",
+		"tz_long":"America/Denver",
+		"lat":"45.68000031",
+		"lon":"-111.02999878",
+		"zip":"59715",
+		"magic":"1",
+		"wmo":"99999",
+		"l":"/q/zmw:59715.1.99999",
+		"requesturl":"US/MT/Bozeman.html",
+		"wuiurl":"https://www.wunderground.com/US/MT/Bozeman.html",
+		"nearby_weather_stations": {
+		"airport": {
+		"station": [
+		{ "city":"Bozeman", "state":"MT", "country":"US", "icao":"KBZN", "lat":"45.77999878", "lon":"-111.15000153" }
+		,{ "city":"Livingston", "state":"MT", "country":"US", "icao":"KLVM", "lat":"45.70000076", "lon":"-110.44999695" }
+		,{ "city":"West Yellowstone", "state":"MT", "country":"US", "icao":"KWYS", "lat":"44.68999863", "lon":"-111.12000275" }
+		,{ "city":"", "state":"", "country":"", "icao":"", "lat":"", "lon":"" }
+		]
+		}
+		,
+		"pws": {
+		"station": [
+		{
+		"neighborhood":"North East Neighborhood",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM155",
+		"lat":45.683189,
+		"lon":-111.028275,
+		"distance_km":0,
+		"distance_mi":0
+		},
+		{
+		"neighborhood":"Willson Administration Building",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM100",
+		"lat":45.678967,
+		"lon":-111.042191,
+		"distance_km":0,
+		"distance_mi":0
+		},
+		{
+		"neighborhood":"Bon-Ton",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM38",
+		"lat":45.674427,
+		"lon":-111.042076,
+		"distance_km":1,
+		"distance_mi":0
+		},
+		{
+		"neighborhood":"Spruce on Short",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM174",
+		"lat":45.684624,
+		"lon":-111.043007,
+		"distance_km":1,
+		"distance_mi":0
+		},
+		{
+		"neighborhood":"South Bozeman",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM39",
+		"lat":45.663296,
+		"lon":-111.038437,
+		"distance_km":1,
+		"distance_mi":1
+		},
+		{
+		"neighborhood":"Legends",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM177",
+		"lat":45.704926,
+		"lon":-111.012596,
+		"distance_km":3,
+		"distance_mi":1
+		},
+		{
+		"neighborhood":"one mile east of Bozeman",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM46",
+		"lat":45.669476,
+		"lon":-110.984627,
+		"distance_km":3,
+		"distance_mi":2
+		},
+		{
+		"neighborhood":"Fowler Place",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM158",
+		"lat":45.682770,
+		"lon":-111.082291,
+		"distance_km":4,
+		"distance_mi":2
+		},
+		{
+		"neighborhood":"Sourdough Ridge",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM71",
+		"lat":45.643261,
+		"lon":-111.018219,
+		"distance_km":4,
+		"distance_mi":2
+		},
+		{
+		"neighborhood":"Baxter Square",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM139",
+		"lat":45.702709,
+		"lon":-111.073792,
+		"distance_km":4,
+		"distance_mi":2
+		},
+		{
+		"neighborhood":"Oak Springs",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM91",
+		"lat":45.685902,
+		"lon":-111.089638,
+		"distance_km":4,
+		"distance_mi":2
+		},
+		{
+		"neighborhood":"MadH",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM182",
+		"lat":45.645031,
+		"lon":-111.072304,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Catail Creek",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM190",
+		"lat":45.708591,
+		"lon":-111.081352,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Mountain Meadows",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM15",
+		"lat":45.668167,
+		"lon":-111.095001,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Manley Meadows",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM120",
+		"lat":45.724583,
+		"lon":-111.052605,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Tayabeshockup Road Windfarm",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM12",
+		"lat":45.634441,
+		"lon":-110.998329,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Baxter Meadows",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM21",
+		"lat":45.702000,
+		"lon":-111.096001,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"South Cottonwood Rd",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM24",
+		"lat":45.675362,
+		"lon":-111.103752,
+		"distance_km":5,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"North Ridge Ranch",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM154",
+		"lat":45.626308,
+		"lon":-111.019638,
+		"distance_km":6,
+		"distance_mi":3
+		},
+		{
+		"neighborhood":"Stonegate",
+		"city":"Bozeman",
+		"state":"MT",
+		"country":"US",
+		"id":"KMTBOZEM125",
+		"lat":45.732666,
+		"lon":-111.061333,
+		"distance_km":6,
+		"distance_mi":3
+		}
+		]
+		}
+		}
+	}
+}

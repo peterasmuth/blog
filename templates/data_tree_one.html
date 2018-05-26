@@ -1,0 +1,150 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="card">
+	<h1>Data Tree:</h1>
+	<h2>Using Python to collect weather data</h2>
+
+	<p>Before this project began, I had an interest in automated data collection in Python. I started by learning about html scraping BeautifulSoup. The goal of html scraping is to pull the data directly from the html document that a website displays to you. In some cases, this may be the only way to collect the data. I was able to get through a <a class="body_link" href="https://medium.freecodecamp.org/how-to-scrape-websites-with-python-and-beautifulsoup-5946935d93fe">tutorial</a>, but when I tried to use it on a different website I ran into problems. I plan to return to this later and get a better idea of how it works. My attempt at learning BeautifulSoup is what led me to a tutorial on accessing the <a class="body_link" href="http://www.pythonforbeginners.com/scraping/scraping-wunderground">Wunderground API</a>. That is where the weather data collection project begins. </p>
+
+	<h1>Overview</h1>
+	<ul>
+		<li>Register for an account at <a class="body_link" href="https://www.wunderground.com/weather/api">Wunderground</a></li>
+		<li>Get an API key</li>
+		<li>Send an API request</li>
+		<li>Parse the reply</li>
+		<li>Write data to .csv</li>
+	</ul>
+
+	<h1>Getting an API key</h1>
+	<p>It seems like in the last month, Wunderground has stopped offering their free-tier API access. If you'd like to follow along with the rest of the tutorial I can privately share my key with you. For obvious reasons, I won't publicly post it.</p>
+
+	<h1>Send an API request</h1>
+
+	<p>Once you get your API key, you're ready to make your first request. The requests are made over HTTP, and all have the same basic format:</p>
+
+	<code class="block">http://api.wunderground.com/api/&lt;YOUR API KEY&gt;/&lt;Data Feature&gt;/q/&lt;Location&gt;.&lt;Output format&gt;</code>
+
+	<p>Lets break this down a little bit. Everything up to and including the API key will always be the same. The "Data Feature" parameter specifies which type of data you'd like to recieve. For this example I want to look at current conditions, so we'll set:</p>
+
+	<code class="block">&lt;Data Feature&gt; = "conditions"</code>
+
+	<p>Then we have to specify the location of our data request. I want to collect data on the weather in Bozeman, Montana, so for this example I'll set </p>
+
+	<code class="block">&lt;Location&gt; = "MT/Bozeman"</code>
+
+	<p>At the very end of the request, you have to specify what file format you are looking to recieve. The Python module I use to make this request has a built-in JSON parser, so that is what I'll choose for "Output format". Putting all these pieces together gives us the following request:</p>
+
+	<code class="block">http://api.wunderground.com/api/&lt;YOUR API KEY&gt;/conditions/q/MT/Bozeman.json</code>
+
+	<p>You can test your request by entering it in your browser. It should look something like <a class="body_link" href="{{ url_for('jsonsample') }}">this</a>. Once you get the response you expect from your browser, you can move on to making Python do the work for you. The first tool for collecting these data is the <a class="body_link" href="http://docs.python-requests.org/en/master/">requests</a> package.</p>
+
+	<h1>Sending a request using Python</h1>
+
+	<p>This tutorial assumes a little bit of Python knowledge, including using pip or conda to install packages. You can find more information about Python <a class="body_link" href="https://www.python.org/about/gettingstarted/">here</a>.</p>
+
+	<p>The request package makes sending a request and parsing the reply very easy. I'll start with a minimal example</p>
+
+	<pre>
+		<code class="block">
+import requests
+
+api_url = "http://api.wunderground.com/api/&lt;YOUR API KEY&gt;/conditions/q/MT/bozeman.json"
+weather_data = requests.get(api_url).json()
+		</code>
+	</pre>
+
+	<p>This gives us the whole json response in one place. The individual data can be accessed the same way you would use a Python dictionary. Let's take a look at the hierarchy of this json file. There are two top level data categories, "response" and "current_observation". All of the interesting data is listed under "current_observation" or one of its subcategories.</p>
+
+	<pre>
+		<code class="block">
+lat = weather_data["current_observation"]["display_location"]["latitude"]
+lon = weather_data["current_observation"]["display_location"]["longitude"]
+city = weather_data["current_observation"]["display_location"]["city"]
+station = weather_data["current_observation"]["station_id"]
+description = weather_data["current_observation"]["weather"]
+temp_f = weather_data["current_observation"]["temp_f"]
+humidity = weather_data["current_observation"]["relative_humidity"]
+wind = weather_data["current_observation"]["wind_mph"]
+wind_gust = weather_data["current_observation"]["wind_gust_mph"]
+wind_dir = weather_data["current_observation"]["wind_dir"]
+precip_last_hour = weather_data["current_observation"]["precip_1hr_in"]
+pressure = weather_data["current_observation"]["pressure_in"]
+
+new_observation = [lat, lon, city, station, description, temp_f, humidity, \
+                    wind, wind_gust, wind_dir, precip_last_hour, pressure]
+		</code>
+	</pre>
+
+	<p>Note how the latitude and longitute are listed under the subcategory "display_location", while the rest of the data are under "current_observation" itself. Once we have all the data we're looking for, we can put it all into a list. But that doesn't do us much good alone. In order to analyze weather patterns, we'll need hundreds of these observations. To accomplish this, we'll store this list in a csv:</p>
+
+<pre><code class="block">
+import csv
+
+with open('weather.csv', 'a', newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(new_observation)
+</code></pre>
+
+	<p>Each time this code executes, it will write a new line to "weather.csv" with the current conditions. This gives us a lot of information, but we're missing one key piece.</p>
+
+	<h1>Adding a timestamp</h1>
+
+	<p>Without knowing what time our observations occurred, our data is pretty much useless. Luckily for us, adding a timestamp is easy.</p>
+
+<pre>
+	<code class="block">
+from datetime import datetime
+
+timestamp = datetime.now().strftime("%#m/%#d/%Y %H:%M")
+
+new_observation = [timestamp, lat, lon, ...] #and so on...
+	</code>
+</pre>
+	
+	<p>datetime.now() returns a datetime object for the current time and date. This object has a method strftime() (string format time) which takes the datetime object and converts it into a string. The parameter passed to this method dictates how the string is formatted. In this example a datetime string would look like: "5/23/2018 14:15". You can add precision with additional parameters for strftime() , but for the purposes of this project, one minute precision is plenty. For more information on using datetime, check out the <a class="body_link" href="https://docs.python.org/2/library/datetime.html">documentation</a></p>
+
+	<h1>Summary</h1>
+	<p>Putting all the pieces together gives us a script that will retrieve a single observation everytime it is run. The next tutorial will extend this into an automated task.</p>
+
+<pre>
+	<code class="block">
+################
+## weather.py ##
+################
+
+from datetime import datetime
+import requests
+import csv
+
+api_url = "http://api.wunderground.com/api/&lt;YOUR API KEY&gt;/conditions/q/MT/bozeman.json"
+weather_data = requests.get(api_url).json()
+
+timestamp = datetime.now().strftime("%#m/%#d/%Y %H:%M")
+lat = weather_data["current_observation"]["display_location"]["latitude"]
+lon = weather_data["current_observation"]["display_location"]["longitude"]
+city = weather_data["current_observation"]["display_location"]["city"]
+station = weather_data["current_observation"]["station_id"]
+description = weather_data["current_observation"]["weather"]
+temp_f = weather_data["current_observation"]["temp_f"]
+humidity = weather_data["current_observation"]["relative_humidity"]
+wind = weather_data["current_observation"]["wind_mph"]
+wind_gust = weather_data["current_observation"]["wind_gust_mph"]
+wind_dir = weather_data["current_observation"]["wind_dir"]
+precip_last_hour = weather_data["current_observation"]["precip_1hr_in"]
+pressure = weather_data["current_observation"]["pressure_in"]
+
+new_observation = [lat, lon, city, station, description, temp_f, humidity, \
+                    wind, wind_gust, wind_dir, precip_last_hour, pressure]
+
+
+with open('weather.csv', 'a', newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(new_observation)
+	</code>
+</pre>
+
+	<center><h2><a class="go_to_button" href="{{ url_for('data_tree_two') }}">Next: Automation using schedule</a></h2></center>
+
+</div>
+{% endblock %}
